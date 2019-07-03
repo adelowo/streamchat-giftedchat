@@ -11,18 +11,18 @@ import {
 
 export default class Login extends Component {
   state = {
-    email: '',
+    username: '',
   };
 
   onLogin = () => {
     axios
       .post('http://localhost:5200/login', {
-        username: this.state.email,
+        username: this.state.username,
       })
       .then(res => {
         if (res.data.status) {
           this.props.cb({
-            username: this.state.email,
+            username: this.state.username,
             token: res.data.token,
           });
           return;
@@ -45,7 +45,7 @@ export default class Login extends Component {
             placeholder="Username"
             keyboardType="default"
             underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({ email })}
+            onChangeText={username => this.setState({ username })}
           />
         </View>
 
