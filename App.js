@@ -15,7 +15,11 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.user ? <Chat /> : <Login cb={this.onLoginSuccess} />}
+        {this.state.user ? (
+          <Chat user={this.state.user} />
+        ) : (
+          <Login cb={this.onLoginSuccess} />
+        )}
       </View>
     );
   }

@@ -24,6 +24,7 @@ export default class Login extends Component {
           this.props.cb({
             username: this.state.username,
             token: res.data.token,
+            id: res.data.user_id,
           });
           return;
         }
