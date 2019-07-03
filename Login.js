@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 
 export default class Login extends Component {
@@ -12,7 +14,27 @@ export default class Login extends Component {
     email: '',
   };
 
-  onLogin = () => {};
+  onLogin = () => {
+    axios
+      .post('http://localhost:5200/login', {
+        username: this.state.email,
+      })
+      .then(res => {
+        if (res.data.status) {
+          this.props.cb({
+            username: this.state.email,
+            token: res.data.token,
+          });
+          return;
+        }
+
+        Alert.alert('Authentication', 'Could not authenticate you. Try again');
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert('Authentication', 'Could not authenticate you. Try again');
+      });
+  };
 
   render() {
     return (
