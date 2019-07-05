@@ -27,12 +27,14 @@ export default class Chat extends Component {
     this.userID = UUID.genV4().toString();
 
     this.channel = this.client.channel('messaging', this.props.user.username, {
-      name: 'Chat',
+      name: 'React native Gifted Chat',
     });
   }
 
   componentDidMount() {
-    this.channel.create().then(() => console.log('OOps'));
+    this.channel
+      .create()
+      .then(() => console.log('Channel was successfully created'));
   }
 
   send = messages => {
@@ -45,8 +47,6 @@ export default class Chat extends Component {
         avatar: 'https://placeimg.com/140/140/any',
       },
     };
-
-    console.log(messages);
 
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
