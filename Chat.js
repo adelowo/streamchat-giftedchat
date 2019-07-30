@@ -37,10 +37,23 @@ export default class Chat extends Component {
       console.log('Channel was successfully created');
     });
 
-    this.channel.watch().then(room => {
-      this.setState({
-        messages: room.messages,
-      });
+    this.channel.watch();
+
+    this.channel.on('message.new', event => {
+      if (event.user.id === this.props.user.id) {
+        return;
+      }
+
+      const message = {
+        _id: UUID.genV4().toString(),
+        created: event.created_at,
+        text: event.message.text,
+        user: event.user,
+      };
+
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, message),
+      }));
     });
   }
 
