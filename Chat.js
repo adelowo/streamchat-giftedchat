@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { StreamChat } from 'stream-chat';
+import { Alert } from 'react-native';
 import UUID from 'uuidjs';
-import Faker from 'faker';
 
 export default class Chat extends Component {
   state = {
@@ -32,21 +32,22 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
-    this.channel
-      .create()
-      .then(() => console.log('Channel was successfully created'));
+    this.channel.create().then(() => {
+      this.setState({ isLoaded: true });
+      console.log('Channel was successfully created');
+    });
+
+    this.channel.watch().then(room => {
+      this.setState({
+        messages: room.messages,
+      });
+    });
   }
 
   send = messages => {
-    const otherMessage = {
-      _id: UUID.genV4().toString(),
-      created_at: new Date(),
-      text: Faker.lorem.sentence(),
-      user: {
-        _id: this.userID,
-        avatar: 'https://placeimg.com/140/140/any',
-      },
-    };
+    if (!this.state.isLoaded) {
+      Alert.alert('Chat not loaded');
+    }
 
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
@@ -56,14 +57,6 @@ export default class Chat extends Component {
       this.channel.sendMessage({
         text: msg.text,
       });
-    });
-
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, otherMessage),
-    }));
-
-    this.channel.sendMessage({
-      text: otherMessage.text,
     });
   };
 
