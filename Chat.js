@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { StreamChat } from 'stream-chat';
-import { Alert } from 'react-native';
+import { Alert, StyleSheet, View, ActivityIndicator } from 'react-native';
 import UUID from 'uuidjs';
 
 export default class Chat extends Component {
@@ -74,6 +74,14 @@ export default class Chat extends Component {
   };
 
   render() {
+    if (!this.state.isLoaded) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
     return (
       <GiftedChat
         messages={this.state.messages}
@@ -85,3 +93,17 @@ export default class Chat extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.5,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
