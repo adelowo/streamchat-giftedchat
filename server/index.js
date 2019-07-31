@@ -51,19 +51,6 @@ app.post('/login', (req, res) => {
 const robotUserID = '123456789';
 
 app.post('/hook', (req, res) => {
-  // const valid = client.verifyWebhook(
-  //   JSON.stringify(req.body),
-  //   req.headers['x-signature']
-  // );
-
-  // if (!valid) {
-  //   res.status(403);
-  //   res.send({
-  //     status: false,
-  //   });
-  //   return;
-  // }
-
   const otherMessage = {
     _id: uuidv4(),
     text: Faker.lorem.sentence(),
