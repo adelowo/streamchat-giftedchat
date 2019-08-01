@@ -9,5 +9,4 @@ client/*.orig.*
 client/web-build/
 client/web-report/
 
-server/variables.env
 server/node_modules/**/*
